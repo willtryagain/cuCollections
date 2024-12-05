@@ -21,11 +21,9 @@
 #include <cuco/utility/key_generator.cuh>
 #include <cuco/utility/reduction_functors.cuh>
 
-#include <cuda/std/cmath>
-
-
 #include <nvbench/nvbench.cuh>
 
+#include <cuda/std/cmath>
 #include <thrust/device_vector.h>
 #include <thrust/transform.h>
 
@@ -45,7 +43,9 @@ std::enable_if_t<(sizeof(Key) == sizeof(Value)), void> static_map_insert_or_appl
   auto const occupancy    = state.get_float64("Occupancy");
   auto const multiplicity = state.get_int64("Multiplicity");
 
-  std::size_t const size = static_cast<size_t>(cuda::std::ceil(static_cast<double>(num_keys) / static_cast<double>(multiplicity))) / occupancy;
+  std::size_t const size = static_cast<size_t>(cuda::std::ceil(static_cast<double>(num_keys) /
+                                                               static_cast<double>(multiplicity))) /
+                           occupancy;
 
   thrust::device_vector<Key> keys(num_keys);
 

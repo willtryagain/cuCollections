@@ -16,6 +16,7 @@
 #pragma once
 
 #include <cuco/detail/error.hpp>
+
 #include <cuda/std/cmath>
 
 namespace cuco {
@@ -44,8 +45,7 @@ constexpr auto grid_size(index_type num,
                          int32_t block_size = default_block_size()) noexcept
 {
   return static_cast<int32_t>(
-    cuda::std::ceil(static_cast<double>(cg_size * num) / static_cast<double> (stride * block_size))
-  );
+    cuda::std::ceil(static_cast<double>(cg_size * num) / static_cast<double>(stride * block_size)));
 }
 
 /**

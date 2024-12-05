@@ -23,10 +23,8 @@
 #include <cuco/storage.cuh>
 #include <cuco/utility/fast_int.cuh>
 
-#include <cuda/std/type_traits>
-
 #include <cuda/std/cmath>
-
+#include <cuda/std/type_traits>
 
 namespace cuco {
 
@@ -93,8 +91,9 @@ template <int32_t CGSize, int32_t BucketSize, typename SizeType, std::size_t N>
     (static_cast<uint64_t>(std::numeric_limits<SizeType>::max()) < max_prime)
       ? std::numeric_limits<SizeType>::max()
       : static_cast<SizeType>(max_prime);
-  auto const size = static_cast<SizeType>(cuda::std::ceil(static_cast<double>(
-    std::max(static_cast<SizeType>(ext), static_cast<SizeType>(1))) / static_cast<double>(CGSize * BucketSize)));
+  auto const size = static_cast<SizeType>(cuda::std::ceil(
+    static_cast<double>(std::max(static_cast<SizeType>(ext), static_cast<SizeType>(1))) /
+    static_cast<double>(CGSize * BucketSize)));
   if (size > max_value) { CUCO_FAIL("Invalid input extent"); }
 
   if constexpr (N == dynamic_extent) {
