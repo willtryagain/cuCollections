@@ -16,12 +16,13 @@
 
 #pragma once
 
-#include <cuco/detail/utility/math.cuh>
 
 #include <algorithm>
 #include <array>
 #include <cstdint>
 #include <limits>
+#include <cuda/std/cmath>
+
 
 namespace cuco {
 namespace detail {
@@ -20154,7 +20155,7 @@ constexpr T get_valid_capacity(T capacity) noexcept
     if constexpr (not uses_vector_load) { return cg_size; }
   }();
 
-  auto const c         = int_div_ceil(capacity, stride);
+  auto const c         = static_cast<T>(cuda::std::ceil(static_cast<double>(capacity)  / static_cast<double>(stride)));
   auto const min_prime = std::lower_bound(primes.begin(), primes.end(), c);
   return *min_prime * stride;
 }
