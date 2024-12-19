@@ -112,20 +112,8 @@ template <int32_t CGSize, int32_t BucketSize, typename SizeType, std::size_t N>
   }
 }
 
-template <int32_t CGSize, int32_t BucketSize, typename SizeType, std::size_t N>
-[[nodiscard]] auto constexpr make_window_extent(extent<SizeType, N> ext)
-{
-  return make_bucket_extent<CGSize, BucketSize, SizeType, N>(ext);
-}
-
 template <int32_t CGSize, int32_t BucketSize, typename SizeType>
 [[nodiscard]] auto constexpr make_bucket_extent(SizeType size)
-{
-  return make_bucket_extent<CGSize, BucketSize, SizeType, dynamic_extent>(extent<SizeType>{size});
-}
-
-template <int32_t CGSize, int32_t BucketSize, typename SizeType>
-[[nodiscard]] auto constexpr make_window_extent(SizeType size)
 {
   return make_bucket_extent<CGSize, BucketSize, SizeType, dynamic_extent>(extent<SizeType>{size});
 }
@@ -168,15 +156,6 @@ template <typename Container, typename SizeType, std::size_t N>
                             N>(ext);
 }
 
-template <typename Container, typename SizeType, std::size_t N>
-[[nodiscard]] auto constexpr make_window_extent(extent<SizeType, N> ext)
-{
-  return make_bucket_extent<typename Container::probing_scheme_type,
-                            typename Container::storage_ref_type,
-                            SizeType,
-                            N>(ext);
-}
-
 template <typename Container, typename SizeType>
 [[nodiscard]] auto constexpr make_bucket_extent(SizeType size)
 {
@@ -184,15 +163,6 @@ template <typename Container, typename SizeType>
                             typename Container::storage_ref_type,
                             SizeType,
                             dynamic_extent>(extent<SizeType>{size});
-}
-
-template <typename Container, typename SizeType>
-[[nodiscard]] auto constexpr make_window_extent(SizeType size)
-{
-  return make_bucket_extent<typename Container::probing_scheme_type,
-                            typename Container::storage_ref_type,
-                            SizeType,
-                            dynamic_extent>(extent<SizeType, dynamic_extent>{size});
 }
 
 namespace detail {
